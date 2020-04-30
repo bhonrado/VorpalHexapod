@@ -21,7 +21,7 @@ unsigned int bluewriteword(int w) {
 
 
 void packetErrorChirp(char c) {
-  beep(70,8);
+  buzzer.Beep(70,8);
   Serial.print(" BTER:"); Serial.print(packetState); Serial.print(c);
   //Serial.print("("); Serial.print(c,DEC); Serial.print(")");
   Serial.print("A"); Serial.println(BlueTooth.available());
@@ -202,7 +202,7 @@ void processPacketData() {
           // this is an error, we got a command that was not complete
           // so the safest thing to do is toss the entire packet and give an error
           // beep
-          beep(BF_ERROR, BD_MED);
+          buzzer.BeepError();
           Serial.println("PKERR:M:Short");
           return;  // stop processing because we can't trust this packet anymore
         }
@@ -215,12 +215,12 @@ void processPacketData() {
             // to be played over time.
             if (honkfreq > 0 && honkdur > 0) {
               Serial.println("Beep Command");
-              beep(honkfreq, honkdur);    
+              buzzer.Beep(honkfreq, honkdur);    
             }  
             i += 5; // length of beep command is 5 bytes
         } else {
           // again, we're short on bytes for this command so something is amiss
-          beep(BF_ERROR, BD_MED);
+          buzzer.BeepError();
           Serial.print("PKERR:B:Short:");Serial.print(i);Serial.print(":");Serial.println(packetLengthReceived);
           return;  // toss the rest of the packet
         }
@@ -272,7 +272,7 @@ void processPacketData() {
             startedStanding = -1; // don't allow sleep mode while this is running
         } else {
           // again, we're short on bytes for this command so something is amiss
-          beep(BF_ERROR, BD_MED);
+          buzzer.BeepError();
           Serial.print("PKERR:R:Short:");Serial.print(i);Serial.print(":");Serial.println(packetLengthReceived);
           return;  // toss the rest of the packet
         }
@@ -306,7 +306,7 @@ void processPacketData() {
                  startedStanding = -1; // don't sleep the legs during this command
               } else {
                   // again, we're short on bytes for this command so something is amiss
-                  beep(BF_ERROR, BD_MED);
+                  buzzer.BeepError();
                   Serial.println("PKERR:G:Short");
                   return;  // toss the rest of the packet                
               }
@@ -338,7 +338,7 @@ void processPacketData() {
            break;
         } else {
           // again, we're short on bytes for this command so something is amiss
-          beep(BF_ERROR, BD_MED);
+          buzzer.BeepError();
           Serial.println("PKERR:L:Short");
           return;  // toss the rest of the packet
         }
@@ -379,38 +379,38 @@ void processPacketData() {
             case 'f':
             case 'b':
               ServoTrim[TrimCurLeg+NUM_LEGS] = constrain(ServoTrim[TrimCurLeg+NUM_LEGS]+((command=='b')?-1:1),0,255);
-              beep(300,30);
+              buzzer.Beep(300,30);
               break;
 
             case 'l':
             case 'r':
               ServoTrim[TrimCurLeg] = constrain(ServoTrim[TrimCurLeg]+((command=='r')?-1:1),0,255);
-              beep(500,30);
+              buzzer.Beep(500,30);
               break;
                           
             case 'w':
               TrimCurLeg = (TrimCurLeg+1)%NUM_LEGS;
               setKnee(TrimCurLeg, 120);
-              beep(100, 30);
+              buzzer.Beep(100, 30);
               delay(500);  // twitch the leg up to give the user feedback on what the new leg being trimmed is
                            // this delay also naturally debounces this command a bit
               break;
             case 'R':
               TrimInEffect = 0;
-              beep(100,30);
+              buzzer.Beep(100,30);
               break;
             case 'S':
               save_trims();
-              beep(800,1000);
+              buzzer.Beep(800,1000);
               delay(500);
               break;
             case 'P':
               TrimPose = 1 - TrimPose;  // toggle between standing (0) and adjust mode (1)
-              beep(500,30);
+              buzzer.Beep(500,30);
               break;
             case 'E':
               erase_trims();
-              beep(1500,1000);
+              buzzer.Beep(1500,1000);
               break;
               
             default:
@@ -431,7 +431,7 @@ void processPacketData() {
            break;
         } else {
           // again, we're short on bytes for this command so something is amiss
-          beep(BF_ERROR, BD_MED);
+          buzzer.BeepError();
           Serial.println("PKERR:T:Short");
           return;  // toss the rest of the packet
         }
@@ -477,7 +477,7 @@ void processPacketData() {
               break;
             } else {
               // again, we're short on bytes for this command so something is amiss
-              beep(BF_ERROR, BD_MED);
+              buzzer.BeepError();
               Serial.println("PKERR:P:Short");
               return;  // toss the rest of the packet
             }
@@ -493,7 +493,7 @@ void processPacketData() {
         if (0) {
           unsigned long t = millis()%1000;
           if (t < 110) {
-            beep(2000,20);
+            buzzer.Beep(2000,20);
           }
         }
         ////////////////////////////////////////////////////
@@ -501,7 +501,7 @@ void processPacketData() {
       default:
           Serial.print("PKERR:BadSW:"); Serial.print(packetData[i]); 
           Serial.print("i=");Serial.print(i);Serial.print(" RCV="); Serial.println(packetLengthReceived);
-          beep(BF_ERROR, BD_MED);
+          buzzer.BeepError();
           return;  // something is wrong, so toss the rest of the packet
     }
   }

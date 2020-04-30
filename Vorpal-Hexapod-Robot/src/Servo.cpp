@@ -123,7 +123,7 @@ void checkForServoSleep() {
     if (mode1 & 16) { // the fifth bit up from the bottom is 1 if controller was asleep
       // wake it up!
       resetServoDriver();
-      beep(1200,100);  // chirp to warn user of brown out on servo controller
+      buzzer.Beep(1200,100);  // chirp to warn user of brown out on servo controller
       SuppressScamperUntil = millis() + 10000;  // no scamper for you! (for 10 seconds because we ran out of power, give the battery
                                                 // a bit of time for charge migration and let the servos cool down)
     }

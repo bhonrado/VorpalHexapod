@@ -1,14 +1,27 @@
 #include "Buzzer.h"
-#include <Arduino.h>
+#include "pinout.h"
 
-void beep(int f, int t) {
-  if (f > 0 && t > 0) {
-    tone(BeeperPin, f, t);
+Buzzer buzzer(BUZZER_PIN);
+
+Buzzer::Buzzer(uint8_t pin)
+    : pin(pin)
+{ }
+
+void Buzzer::Init()
+{
+  pinMode(pin, OUTPUT);
+}
+
+void Buzzer::Beep(int freq, int duration)
+{
+    if (freq > 0 && duration > 0) {
+    tone(pin, freq, duration);
   } else {
-    noTone(BeeperPin);
+    noTone(pin);
   }
 }
 
-void beep(int f) {  // if no second param is given we'll default to 250 milliseconds for the beep
-  beep(f, 250);
+void Buzzer::BeepError()
+{
+  Beep(BF_ERROR, BD_MED);
 }

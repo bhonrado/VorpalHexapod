@@ -122,8 +122,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //    will not be able to correct for an errant scratch program that triggers this situation.
 
 #include <Wire.h>
-
-
 #include <SPI.h>
 //#include <Pixy.h>
 
@@ -143,12 +141,12 @@ void setup() {
   Serial.begin(9600);
   Serial.println("");
   Serial.println(Version);
-  pinMode(BeeperPin, OUTPUT);
-  beep(200);
+
+  buzzer.Init();
+  buzzer.Beep(200);
   
   TrimInit();
   
-
   arduinoLed.Init();
   /* Make a characteristic flashing pattern to indicate the robot code is loaded */
   arduinoLed.Flash(FlashPattern::Robot);
@@ -179,7 +177,7 @@ void setup() {
                    
   // Chirp a number of times equal to FreqMult so we confirm what servo mode is in use
   for (int i = 0; i < FreqMult; i++) {
-    beep(800, 50);
+    buzzer.Beep(800, 50);
     delay(100);
   }
 
@@ -193,7 +191,7 @@ void setup() {
   
   //CmuCam5.init();   // we're still working out some issues with CmuCam5
   
-  beep(400); // Signals end of startup sequence
+  buzzer.Beep(400); // Signals end of startup sequence
 
   yield();
 }
@@ -290,7 +288,7 @@ void loop() {
   }
 
   if (Dialmode != priorDialMode && priorDialMode != -1) {
-    beep(100+100*Dialmode,60);   // audio feedback that a new mode has been entered
+    buzzer.Beep(100+100*Dialmode,60);   // audio feedback that a new mode has been entered
     SuppressModesUntil = millis() + 1000;
   }
   priorDialMode = Dialmode;
@@ -377,11 +375,11 @@ void loop() {
           // after 15 full seconds of not receiving a valid command, reset the bluetooth connection
           Serial.println("Loss of Signal: resetting bluetooth");
           // Make a three tone chirp to indicate reset
-          beep(200,40); // loss of connection test
+          buzzer.Beep(200,40); // loss of connection test
           delay(100);
-          beep(400, 40);
+          buzzer.Beep(400, 40);
           delay(100);
-          beep(600, 40);
+          buzzer.Beep(600, 40);
           BlueTooth.begin(38400);
           LastReceiveTime = LastValidReceiveTime = millis();
           lastCmd = -1;  // for safety put it in stop mode
@@ -478,7 +476,7 @@ void loop() {
             }
             break;
           case MODE_WALK: {
-              beep(400);
+              buzzer.Beep(400);
               // stomp in place while beeping horn
               if (submode == SUBMODE_2) { // high step
                 factor = 2;
@@ -493,7 +491,7 @@ void loop() {
             }  
             break;
           default:     // for any other mode implement a "horn"
-            beep(400);
+            buzzer.Beep(400);
             break;
         }
         break;
@@ -657,7 +655,7 @@ void loop() {
        
        default:
         Serial.print("BAD CHAR:"); Serial.write(lastCmd); Serial.println("");
-        beep(100,20);
+        buzzer.Beep(100,20);
     }  // end of switch
     
 
