@@ -127,6 +127,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <SPI.h>
 //#include <Pixy.h>
 
+#include "pinout.h"
+#include "Led.h"
 #include "Buzzer.h"
 #include "Potentiometer.h"
 #include "Hexapod.h"
@@ -135,27 +137,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define BATTERYSAVER 5000   // milliseconds in stand mode before servos all detach to save power and heat buildup
 
+Led arduinoLed(BUILT_IN_LED_PIN);
+
 void setup() {
   Serial.begin(9600);
   Serial.println("");
   Serial.println(Version);
   pinMode(BeeperPin, OUTPUT);
   beep(200);
-
+  
   TrimInit();
   
-  // make a characteristic flashing pattern to indicate the robot code is loaded (as opposed to the gamepad)
-  // There will be a brief flash after hitting the RESET button, then a long flash followed by a short flash.
-  // The gamepaid is brief flash on reset, short flash, long flash.
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
-  delay(300);
-  digitalWrite(13, LOW);
-  delay(150);
-  digitalWrite(13, HIGH);
-  delay(150);
-  digitalWrite(13,LOW);
-  ///////////////////// end of indicator flashing
+
+  arduinoLed.Init();
+  /* Make a characteristic flashing pattern to indicate the robot code is loaded */
+  arduinoLed.Flash(FlashPattern::Robot);
 
   PotentiometerInit();
 
