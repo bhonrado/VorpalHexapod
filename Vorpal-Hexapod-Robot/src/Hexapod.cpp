@@ -95,7 +95,6 @@ void setHipRaw(int leg, int pos) {
 // this version of setHip adjusts for left and right legs so
 // that 0 degrees moves "forward" i.e. toward legs 5-0 which is
 // nominally the front of the robot
-
 void setHip(int leg, int pos) {
   // reverse the left side for consistent forward motion
   if (leg >= LEFT_START) {
@@ -107,7 +106,6 @@ void setHip(int leg, int pos) {
 // this version of setHip adjusts not only for left and right,
 // but also shifts the front legs a little back and the back legs
 // forward to make a better balance for certain gaits like tripod or quadruped
-
 void setHip(int leg, int pos, int adj) {
   if (ISFRONTLEG(leg)) {
     pos -= adj;
@@ -473,7 +471,7 @@ void fight_mode(char dpad, int mode, long timeperiod) {
 
 #define HIP_FISTS_FORWARD 130
 
-  if (Dialmode == DIALMODE_RC_GRIPARM && mode == SUBMODE_2) {
+  if (dial.Mode() == DialMode::RC_GRIPARM && mode == SUBMODE_2) {
     // we're really not fighting, we're controlling the grip arm if GRIPARM is nonzero
     griparm_mode(dpad);
     return;

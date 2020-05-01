@@ -19,6 +19,7 @@ public:
     Led(uint8_t pin);
     void Init();
     void Flash(FlashPattern pattern);
+    void Flash(unsigned long t);
     void On();
     void Off();
     void Toggle();

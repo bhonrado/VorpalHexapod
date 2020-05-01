@@ -66,8 +66,8 @@ void detach_all_servos() {
 void setServo(int servonum, int position) {
   if (position != ServoPos[servonum]) {
     ServoTime[servonum] = millis();
+    ServoPos[servonum] = position;  // keep data on where the servo was last commanded to go
   }
-  ServoPos[servonum] = position;  // keep data on where the servo was last commanded to go
   
   int p = map(position,0,180,SERVOMIN,SERVOMAX);
   

@@ -10,10 +10,10 @@
 #include <Arduino.h>
 #include <Adafruit_PWMServoDriver.h>
 #include <EEPROM.h>
-#include "Potentiometer.h"
+#include "Dial.h"
 
 #define NUM_LEGS 6
-#define NUM_GRIPSERVOS ((Dialmode == DIALMODE_RC_GRIPARM)?2:0)  
+#define NUM_GRIPSERVOS ((dial.Mode() == DialMode::RC_GRIPARM)?2:0)  
 // if we're in griparm mode there are 2 griparm servos, else there are none
 
 #define SERVO_IIC_ADDR  (0x40)    // default servo driver IIC address
