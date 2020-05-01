@@ -973,7 +973,7 @@ void random_gait(int timingfactor) {
 
   switch (curGait) {
     case G_STAND:
-      stand();
+      stand(); 
       break;
     case G_TURN:
       turn(1, HIP_FORWARD, HIP_BACKWARD, KNEE_NEUTRAL, KNEE_DOWN, TRIPOD_CYCLE_TIME); // 700

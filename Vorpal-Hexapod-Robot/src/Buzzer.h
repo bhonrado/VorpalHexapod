@@ -20,7 +20,7 @@ class Buzzer
      * 
      * @param freq      the frequency of the tone in hertz
      * @param duration  the duration of the tone in milliseconds 
-     * @note            if no second param is given we'll default to 250 milliseconds for the beep
+     * @note            if no second param is given it'll default to 250 milliseconds for the beep
      */
     void Beep(int freq, int duration = DEFAULT_BEEP_DURATION);
 

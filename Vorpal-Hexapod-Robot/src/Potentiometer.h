@@ -2,8 +2,9 @@
 #define POTENTIOMETER_H
 
 // A1 and A2 provide power to the potentiometer
-#define POTMETER_POWER  A1
-#define POTMETER_GROUND A2
+#define POTMETER_PWR  A1
+#define POTMETER_GND  A2
+#define POTMETER_SIG  A0
 
 #define DIALMODE_STAND 0
 #define DIALMODE_ADJUST 1

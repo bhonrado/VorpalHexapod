@@ -6,9 +6,9 @@ short priorDialMode = -1;
 
 void PotentiometerInit()
 {
-    pinMode(POTMETER_POWER, OUTPUT); 
-    pinMode(POTMETER_GROUND, OUTPUT); 
+    pinMode(POTMETER_PWR, OUTPUT); 
+    pinMode(POTMETER_GND, OUTPUT); 
     
-    digitalWrite(POTMETER_POWER, HIGH);
-    digitalWrite(POTMETER_GROUND, LOW);
+    digitalWrite(POTMETER_PWR, HIGH);
+    digitalWrite(POTMETER_GND, LOW);
 }

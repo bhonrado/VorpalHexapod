@@ -13,7 +13,8 @@
 #include "Potentiometer.h"
 
 #define NUM_LEGS 6
-#define NUM_GRIPSERVOS ((Dialmode == DIALMODE_RC_GRIPARM)?2:0)  // if we're in griparm mode there are 2 griparm servos, else there are none
+#define NUM_GRIPSERVOS ((Dialmode == DIALMODE_RC_GRIPARM)?2:0)  
+// if we're in griparm mode there are 2 griparm servos, else there are none
 
 #define SERVO_IIC_ADDR  (0x40)    // default servo driver IIC address
 //Adafruit_PWMServoDriver servoDriver = Adafruit_PWMServoDriver(SERVO_IIC_ADDR); 

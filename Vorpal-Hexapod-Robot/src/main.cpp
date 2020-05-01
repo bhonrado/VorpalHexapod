@@ -150,6 +150,7 @@ void setup() {
   arduinoLed.Init();
   /* Make a characteristic flashing pattern to indicate the robot code is loaded */
   arduinoLed.Flash(FlashPattern::Robot);
+  arduinoLed.Off();
 
   PotentiometerInit();
 
@@ -157,7 +158,6 @@ void setup() {
   digitalWrite(ServoTypeGroundPin, LOW);
   pinMode(ServoTypePin, INPUT_PULLUP);    // if high we default to analog servo mode, if pulled to ground
                                           // (via a shunt to D6) then we'll double the PWM frequency for digital servos
-  digitalWrite(13, LOW);
   
   delay(300); // give hardware a chance to come up and stabalize
 
@@ -270,7 +270,7 @@ void loop() {
   checkForSmoothMoves();
   
   ////////////////////
-  int p = analogRead(A0);
+  int p = analogRead(POTMETER_SIG);
   int factor = 1;
   
   if (p < 50) {
@@ -288,7 +288,7 @@ void loop() {
   }
 
   if (Dialmode != priorDialMode && priorDialMode != -1) {
-    buzzer.Beep(100+100*Dialmode,60);   // audio feedback that a new mode has been entered
+    buzzer.Beep(100+100*Dialmode, 60);   // audio feedback that a new mode has been entered
     SuppressModesUntil = millis() + 1000;
   }
   priorDialMode = Dialmode;
@@ -331,7 +331,7 @@ void loop() {
     pinMode(13, flash(500));      // flash LED13 moderately fast in servo test mode
     
     for (int i = 0; i < 2*NUM_LEGS+NUM_GRIPSERVOS; i++) {
-      p = analogRead(A0);
+      p = analogRead(POTMETER_SIG);
       if (p > 300 || p < 150) {
         break;
       }
