@@ -66,13 +66,13 @@ void setLeg(int legmask, int hip_pos, int knee_pos, int adj, int raw, int leanan
         int pos = knee_pos;
         if (leanangle != 0) {
           switch (i) {
-            case 0: case 6: case 5: case 11:
+            case 0: case 5:
               if (leanangle < 0) pos -= leanangle;
               break;
-            case 1: case 7: case 4: case 10:
+            case 1: case 4:
               pos += abs(leanangle/2);
               break;
-            case 2: case 8: case 3: case 9:
+            case 2: case 3:
               if (leanangle > 0) pos += leanangle;
               break;
           }
